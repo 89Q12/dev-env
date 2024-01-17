@@ -111,7 +111,7 @@ case "$OSTYPE" in
       ;;
 esac
 
-# Generate SSH keys
+# Generate SSH keys, we override them anyways in the SSH role but this is needed for ansible to work
 if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
     echo -e "${ARROW} ${CYAN}Generating SSH keys...${NC}"
     mkdir -p "$SSH_DIR"
@@ -125,10 +125,10 @@ fi
 
 # Clone repository
 if ! [[ -d "$DOTFILES_DIR" ]]; then
-    echo -e "${ARROW} ${CYAN}Cloning repository: ${YELLOW}github.com/TechDufus/dotfiles${NC}"
-    git clone --quiet "https://github.com/TechDufus/dotfiles.git" "$DOTFILES_DIR" 2>&1 > /dev/null
+    echo -e "${ARROW} ${CYAN}Cloning repository: ${YELLOW}github.com/89Q12/dotfiles${NC}"
+    git clone --quiet "https://github.com/89Q12/dotfiles.git" "$DOTFILES_DIR" 2>&1 > /dev/null
 else
-    echo -e "${ARROW} ${CYAN}Updating repository: ${YELLOW}github.com/TechDufus/dotfiles${NC}"
+    echo -e "${ARROW} ${CYAN}Updating repository: ${YELLOW}github.com/89Q12/dotfiles${NC}"
     git -C "$DOTFILES_DIR" pull --quiet > /dev/null
 fi
 
