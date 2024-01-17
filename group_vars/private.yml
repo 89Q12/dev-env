@@ -6,4 +6,5 @@ private_dev_env:
     - nvm
     - rust # Uses rustup to setup rust
     - wireguard
+    - discord
   vars:
