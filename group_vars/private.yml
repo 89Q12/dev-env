@@ -1,0 +1,9 @@
+private_dev_env:
+  roles:
+    - vue
+    - node
+    - yarn
+    - nvm
+    - rust # Uses rustup to setup rust
+    - wireguard
+  vars:

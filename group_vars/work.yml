@@ -1,0 +1,9 @@
+work_dev_env:
+  roles:
+    #- mattermost
+    #- withsecure
+    - teams
+    - evolution # Email
+    - sops
+    - vpn
+  vars:
