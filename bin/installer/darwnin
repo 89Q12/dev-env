@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# install brew
+if ! whereis brew -q | grep /opt/homebrew/bin/brew >/dev/null 2>&1; then
+    echo -e "${ARROW} ${CYAN}Installing Brew...${NC}"
+    echo -e "${RIGHT_ANGLE} ${CYAN}Installing Xcode...${NC}"
+    xcode-select --install
+    echo -e "${RIGHT_ANGLE} ${YELLOW}Downloading and running Brew install script${NC}"
+    export NONINTERACTIVE=1
+    /bin/bash -C "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+# check lsb_release -si
+if ! brew list | grep ansible >/dev/null 2>&1; then
+    echo -e "${ARROW} ${CYAN}Installing Ansible...${NC}"
+    brew install ansible ansible-galaxy ansible-vault
+    echo -e "${ARROW} ${GREEN}Ansible installed!${NC}"
+    echo -e "${ARROW} ${CYAN}Installing ansible argument completion...${NC}"
+    brew install python-argcomplete 2>&1 > /dev/null
+    activate-global-python-argcomplete 2>&1 > /dev/null
+fi
+
+# Check if python3 and pip is installed
+if ! brew list | grep python >/dev/null 2>&1; then
+    echo -e "${ARROW} ${CYAN}Installing Python3...${NC}"
+    brew install python 2>&1 > /dev/null
+    echo -e "${ARROW} ${GREEN}Python3 installed!${NC}"
+fi
+# Check if pip module watchdog is installed
+if ! pip3 list | grep watchdog >/dev/null 2>&1; then
+    echo -e "${ARROW} ${CYAN}Installing Python3 Watchdog...${NC}"
+    pip3 install watchdog 2>&1 > /dev/null
+    echo -e "${ARROW} ${GREEN}Python3 Watchdog installed!${NC}"
+fi

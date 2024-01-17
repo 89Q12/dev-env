@@ -1,0 +1,158 @@
+#!/bin/bash
+#color codes
+RED='\033[1;31m'
+YELLOW='\033[1;33m'
+BLUE="\\033[38;5;27m"
+SEA="\\033[38;5;49m"
+GREEN='\033[1;32m'
+CYAN='\033[1;36m'
+NC='\033[0m'
+
+#emoji codes
+CHECK_MARK="${GREEN}\xE2\x9C\x94${NC}"
+X_MARK="${RED}\xE2\x9C\x96${NC}"
+PIN="${RED}\xF0\x9F\x93\x8C${NC}"
+CLOCK="${GREEN}\xE2\x8C\x9B${NC}"
+ARROW="${SEA}\xE2\x96\xB6${NC}"
+BOOK="${RED}\xF0\x9F\x93\x8B${NC}"
+HOT="${ORANGE}\xF0\x9F\x94\xA5${NC}"
+WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
+RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
+
+set -e
+
+# Paths
+CONFIG_DIR="$HOME/.config/dotfiles"
+VAULT_SECRET="$HOME/.ansible-vault/vault.secret"
+DOTFILES_DIR="$HOME/.dotfiles"
+SSH_DIR="$HOME/.ssh"
+IS_FIRST_RUN="$HOME/.dotfiles_run"
+
+# Install Ansible
+
+case "$OSTYPE" in
+  darwin*)
+      echo "OSX"
+      # call /install/darwin
+      if ! whereis brew -q | grep /opt/homebrew/bin/brew >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Brew...${NC}"
+        echo -e "${RIGHT_ANGLE} ${CYAN}Installing Xcode...${NC}"
+        xcode-select --install
+        echo -e "${RIGHT_ANGLE} ${YELLOW}Downloading and running Brew install script${NC}"
+        export NONINTERACTIVE=1
+        /bin/bash -C "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+      # check lsb_release -si
+      if ! brew list | grep ansible >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Ansible...${NC}"
+        brew install ansible ansible-galaxy ansible-vault
+        echo -e "${ARROW} ${GREEN}Ansible installed!${NC}"
+        echo -e "${ARROW} ${CYAN}Installing ansible argument completion...${NC}"
+        brew install python-argcomplete 2>&1 > /dev/null
+        activate-global-python-argcomplete 2>&1 > /dev/null
+      fi
+
+      # Check if python3 and pip is installed
+      if ! brew list | grep python >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Python3...${NC}"
+        brew install python 2>&1 > /dev/null
+        echo -e "${ARROW} ${GREEN}Python3 installed!${NC}"
+      fi
+      # Check if pip module watchdog is installed
+      if ! pip3 list | grep watchdog >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Python3 Watchdog...${NC}"
+        pip3 install watchdog 2>&1 > /dev/null
+        echo -e "${ARROW} ${GREEN}Python3 Watchdog installed!${NC}"
+      fi
+      ;;
+  linux*)
+    echo "LINUX"
+    # call /installer/ubntu
+    # check lsb_release -si
+    if ! dpkg -s ansible >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Ansible...${NC}"
+        echo -e "   ${RIGHT_ANGLE} ${CYAN}Updating APT Repos${NC}"
+        apt-get update 2>&1 > /dev/null
+        echo -e "   ${RIGHT_ANGLE} ${CYAN}Installing dependency: ${YELLOW}software-properties-common${NC}"
+        apt-get install -y software-properties-common 2>&1 > /dev/null
+        echo -e "   ${RIGHT_ANGLE} ${CYAN}Adding Ansible PPA Repo${NC}"
+        apt-add-repository -y ppa:ansible/ansible 2>&1 > /dev/null
+        echo -e "   ${RIGHT_ANGLE} ${CYAN}Updating APT Repos${NC}"
+        apt-get update 2>&1 > /dev/null
+        echo -e "   ${RIGHT_ANGLE} ${CYAN}Installing Ansible${NC}"
+        apt-get install -y ansible 2>&1 > /dev/null
+        echo -e "${ARROW} ${GREEN}Ansible installed!${NC}"
+        echo -e "${ARROW} ${CYAN}Installing ansible argument completion...${NC}"
+        apt-get install python3-argcomplete 2>&1 > /dev/null
+        activate-global-python-argcomplete3 2>&1 > /dev/null
+    fi
+
+    # Check if python3 and pip is installed
+    if ! dpkg -s python3 >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Python3...${NC}"
+        apt-get install -y python3 2>&1 > /dev/null
+        echo -e "${ARROW} ${GREEN}Python3 installed!${NC}"
+    fi
+    if ! dpkg -s python3-pip >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Python3 Pip...${NC}"
+        apt-get install -y python3-pip 2>&1 > /dev/null
+        echo -e "${ARROW} ${GREEN}Python3 Pip installed!${NC}"
+    fi
+    # Check if pip module watchdog is installed
+    if ! pip3 list | grep watchdog >/dev/null 2>&1; then
+        echo -e "${ARROW} ${CYAN}Installing Python3 Watchdog...${NC}"
+        pip3 install watchdog 2>&1 > /dev/null
+        echo -e "${ARROW} ${GREEN}Python3 Watchdog installed!${NC}"
+    fi
+    ;;
+  *)
+      echo "Unknown or unsupported OS: $OSTYPE"
+      exit 1
+      ;;
+esac
+
+# Generate SSH keys
+if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
+    echo -e "${ARROW} ${CYAN}Generating SSH keys...${NC}"
+    mkdir -p "$SSH_DIR"
+
+    chmod 700 "$SSH_DIR"
+
+    ssh-keygen -b 4096 -t rsa -f "$SSH_DIR/id_rsa" -N "" -C "$USER@$HOSTNAME" 2>&1 > /dev/null
+
+    cat "$SSH_DIR/id_rsa.pub" >> "$SSH_DIR/authorized_keys"
+fi
+
+# Clone repository
+if ! [[ -d "$DOTFILES_DIR" ]]; then
+    echo -e "${ARROW} ${CYAN}Cloning repository: ${YELLOW}github.com/TechDufus/dotfiles${NC}"
+    git clone --quiet "https://github.com/TechDufus/dotfiles.git" "$DOTFILES_DIR" 2>&1 > /dev/null
+else
+    echo -e "${ARROW} ${CYAN}Updating repository: ${YELLOW}github.com/TechDufus/dotfiles${NC}"
+    git -C "$DOTFILES_DIR" pull --quiet > /dev/null
+fi
+
+# Create path
+pushd "$DOTFILES_DIR" 2>&1 > /dev/null
+
+# Update Galaxy
+echo -e "${ARROW} ${CYAN}Updating Galaxy...${NC}"
+ansible-galaxy install -r requirements.yml 2>&1 > /dev/null
+
+# Run playbook
+echo -e "${ARROW} ${CYAN}Running playbook...${NC}"
+if [[ -f $VAULT_SECRET ]]; then
+    echo -e "${ARROW} ${CYAN}Using vault config file...${NC}"
+    ansible-playbook --vault-password-file $VAULT_SECRET "$DOTFILES_DIR/main.yml" "$@"
+else
+    echo -e "${WARNING} ${CYAN}Vault config file not found...${NC}"
+    ansible-playbook "$DOTFILES_DIR/main.yml" "$@"
+fi
+
+popd 2>&1 > /dev/null
+
+if ! [[ -f "$IS_FIRST_RUN" ]]; then
+    echo -e "${CHECK_MARK} ${GREEN}First run complete!${NC}"
+    echo -e "${ARROW} ${CYAN}Please reboot your computer to complete the setup.${NC}"
+    touch "$IS_FIRST_RUN"
+fi
