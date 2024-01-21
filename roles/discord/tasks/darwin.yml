@@ -1,0 +1,5 @@
+---
+- name: Install discord
+  community.general.homebrew:
+    name: discord
+    state: present

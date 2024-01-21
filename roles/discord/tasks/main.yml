@@ -1,6 +1,6 @@
 ---
 - name: Run OS specific discord installation
-  ansible.builtin.import_tasks: "{{ ansible_os_family }}.yml"
+  ansible.builtin.import_tasks: "{{ ansible_os_family | lower }}.yml"
 
 - name: Setup Better discord
   ansible.builtin.import_tasks: "setup_better_discord.yml"

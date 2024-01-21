@@ -7,15 +7,18 @@
     version: main
     update: yes
     clone: yes
+
 - name: Setup the project using yarn
   community.general.yarn:
     path: /opt/betterDiscord
+  when: not ansible_check_mode
 
 - name: Build better discord
   ansible.builtin.script:
     cmd: yarn --cwd /opt/betterDiscord/ run build
+  when: not ansible_check_mode
 
-- name: Build better discord
+- name: Inject better discord
   ansible.builtin.script:
     cmd: yarn --cwd /opt/betterDiscord/ run inject
-#- name: Install plugins
+  when: not ansible_check_mode

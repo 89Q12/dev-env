@@ -1,0 +1,10 @@
+---
+- name: Install discord
+  block:
+    - name: Download deb package
+      ansible.builtin.get_url:
+        url: "https://discord.com/api/download?platform=linux&format=deb"
+        dest: /tmp/discord.deb
+    - name: Install discord.deb
+      ansible.builtin.apt:
+        deb: /tmp/discord.deb
