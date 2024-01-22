@@ -1,9 +1,18 @@
 ---
+- name: check if os is supported
+  ansible.builtin.stat:
+    path: "{{ role_path }}/tasks/{{ ansible_os_family | lower }}.yml"
+  register: st
+
+- name: Fail when usupported OS
+  ansible.builtin.fail:
+    msg: "OS unsupported"
+  when: not st.stat.exists
 - name: Install ZSH
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
 
-  - name: Existing install
-  stat:
+- name: Existing install
+  ansible.builtin.stat:
     path: "{{ ansible_user_dir }}/.oh-my-zsh"
   register: install
 
@@ -30,3 +39,9 @@
     single_branch: yes
     update: yes
     version: master
+
+- name: Copy .zshrc
+  ansible.builtin.template:
+    dest: "{{ ansible_user_dir }}/.zshrc"
+    src: "./.zshrc.j2"
+    force: true
