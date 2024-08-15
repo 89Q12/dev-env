@@ -11,22 +11,22 @@ Let's do that and automate the setup of every machine I own!
 Thats the gist of it :)
 # Roadmap
 
-- [] Initial planning and repo
-- [] finish install script 
-- [] write required roles
-- [] add cloud functionality
-    - [] Server side things
-        - [] Add playbook that setups 
+- [x] Initial planning and repo
+- [ ] finish install script 
+- [ ] write required roles
+- [ ] add cloud functionality
+    - [ ] Server side things
+        - [ ] Add playbook that setups 
             - wireguard
             - samba shares and makes those accessible on the wg0 interface
             - clones all git repos from the configured remote use into a specific folder structure
-    - [] Client side
-        - [] Script to check for internet/vpn connectivity
-        - [] Login script: auto mount samba shares
-        - [] Auto SSH script loaded via bashrc
-            - [] Sync back git changes after SSH session exits when internet connectivity is there
-        - [] Adjust add role that configures the client
-- [] Repo sugar like Renovate
+    - [ ] Client side
+        - [ ] Script to check for internet/vpn connectivity
+        - [ ] Login script: auto mount samba shares
+        - [ ] Auto SSH script loaded via bashrc
+            - [ ] Sync back git changes after SSH session exits when internet connectivity is there
+        - [ ] Adjust add role that configures the client
+- [ ] Repo sugar like Renovate
 
 ## Can I use this?
 
