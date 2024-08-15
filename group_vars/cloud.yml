@@ -1,7 +1,6 @@
-private_dev_env:
+cloud_dev_env:
   roles:
-    - wireguard-client
-    - ssh
+    - wireguard-server
     #- vue
     #- node
     #- yarn

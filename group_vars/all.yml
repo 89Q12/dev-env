@@ -1,17 +1,13 @@
 required_roles:
-  - zsh
-  - emacs
-  - starship
-  - vim
-  - vscode
-  - ssh
-  - kubectl # Includes Kctx
-  - docker
-  - firefox
-  - fluxcli
-  - helm
-  - minio-cli
+  - bash # Includes helper scripts and bash configuration
   - git # Only config
+#  - emacs
+#  - vim
+#  - vscode
+#  - fluxcli
+#  - helm
+#  - minio-cli
+#  - docker
 
 vars:
   git:

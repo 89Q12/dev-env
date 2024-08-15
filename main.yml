@@ -20,7 +20,7 @@
       tags:
         - work
 
-    - name: Run private ioles
+    - name: Run private roles
       include_roles:
         name: "{{ role_name }}"
       loop_control:
@@ -28,3 +28,12 @@
       with_items: "{{ private_dev_env.roles }}"
       tags:
         - private
+
+    - name: Run cloud dev-env setup roles
+      include_roles:
+        name: "{{ role_name }}"
+      loop_control:
+        loop_var: role_name
+      with_items: "{{ private_dev_env.roles }}"
+      tags:
+        - cloud
