@@ -8,19 +8,19 @@
   ansible.builtin.fail:
     msg: "OS unsupported"
   when: not st.stat.exists
-- name: Install ZSH
+- name: Install Bash
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
 
 - name: Existing install
   ansible.builtin.stat:
-    path: "{{ ansible_user_dir }}/.oh-my-zsh"
+    path: "{{ ansible_user_dir }}/.oh-my-bash"
   register: install
 
-- name: Install OMYZSH
-  ansible.builtin.command: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
+- name: Install OMYBASH
+  ansible.builtin.command: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/ohmybash/master/tools/install.sh)" "" --unattended'
   when: not ansible_check_mode and not install.stat.exists
 
-- name: Clone zsh-autosuggestions
+- name: Clone bash-autosuggestions
   ansible.builtin.git:
     clone: yes
     depth: 1
@@ -40,8 +40,16 @@
     update: yes
     version: master
 
-- name: Copy .zshrc
+- name: Copy custom scripts
+  copy:
+    src: "{{ role_path }}/scripts"
+    dest: ~/.config/bash/
+  with_fileglob:
+  - "{{ role_path }}/scripts/*"
+
+- name: Copy .bashrc
   ansible.builtin.template:
-    dest: "{{ ansible_user_dir }}/.zshrc"
-    src: "./.zshrc.j2"
-    force: true
+    dest: "{{ ansible_user_dir }}/.bashrc"
+    src: "./.bashrc.j2"
+    force: true # DO NOT DO LOCAL CHANGES AAAHHHHH IM GONNA FUCK THEM UP! This is intentional
+

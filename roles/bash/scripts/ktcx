@@ -1,0 +1,26 @@
+#!/bin/bash
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+source $root/dotfile-helper
+function select_kubeconfig() {
+    options=$(echo "(none)" "(none)";   find ~/.kube/configs/ -type f -printf '%p %P\n' | sort -r)
+    [[ -v KUBECONFIG ]] && default_option="--default-item $KUBECONFIG"
+
+    ctx=$(whiptail  $default_option --clear --notags --menu "choose your k8s fighter!!!" 20 100 12 $options 3>&1 1>&2 2>&3)
+    if [[ $? = 0 ]]; then
+        if [ "$ctx" != "(none)" ]; then 
+            export KUBECONFIG="$ctx"
+
+            ctx_name=$(awk -F / '{print $NF}' <<< $ctx)   
+            if [[ "$ctx" =~ "customer" || "$ctx" =~ "prod-" ]] <<< $ctx; then
+                prettyPrint  "**DANGEROUS CONTEXT: $ctx_name!!!! Be sure to check your commands first :3**" "danger";
+            elif [[ "$ctx" =~ "stage" ]]  <<< $ctx; then
+                prettyPrint "**SAFEISH CONTEXT: $ctx_name!!!**" "warning";
+            else
+                prettyPrint  "**FEEL FREE TO DESTROY CONTEXT: $ctx_name**" "success"; 
+            fi
+        else
+            export -n KUBECONFIG=""
+        fi
+    fi
+}
+alias kctx='select_kubeconfig'

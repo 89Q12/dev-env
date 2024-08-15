@@ -1,5 +1,5 @@
 ---
 - name: Install ZSH
   community.general.homebrew:
-    name: zsh
+    name: bash
     state: present
