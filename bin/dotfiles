@@ -67,7 +67,7 @@ case "$OSTYPE" in
       ;;
   linux*)
     echo "LINUX"
-    # call /installer/ubntu
+    # call /installer/ubuntu
     # check lsb_release -si
     if ! dpkg -s ansible >/dev/null 2>&1; then
         echo -e "${ARROW} ${CYAN}Installing Ansible...${NC}"
@@ -118,9 +118,9 @@ if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
 
     chmod 700 "$SSH_DIR"
 
-    ssh-keygen -b 4096 -t rsa -f "$SSH_DIR/id_rsa" -N "" -C "$USER@$HOSTNAME" 2>&1 > /dev/null
+    ssh-keygen -b 4096 -t rsa -f "$SSH_DIR/id_rsa_ansible" -N "" -C "$USER@$HOSTNAME" 2>&1 > /dev/null
 
-    cat "$SSH_DIR/id_rsa.pub" >> "$SSH_DIR/authorized_keys"
+    cat "$SSH_DIR/id_rsa_ansible.pub" >> "$SSH_DIR/authorized_keys"
 fi
 
 # Clone repository
@@ -153,6 +153,6 @@ popd 2>&1 > /dev/null
 
 if ! [[ -f "$IS_FIRST_RUN" ]]; then
     echo -e "${CHECK_MARK} ${GREEN}First run complete!${NC}"
-    echo -e "${ARROW} ${CYAN}Please reboot your computer to complete the setup.${NC}"
+    echo -e "${ARROW} ${CYAN}A lot has been configured, a reboot seems useful{NC}"
     touch "$IS_FIRST_RUN"
 fi
