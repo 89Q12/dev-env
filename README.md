@@ -2,7 +2,7 @@
 
 I got sick of having snowflakes installations around me all time
 and so I first thought how can I share my dot-files in a sensible way?
-I also know that I need the same setup everywhere at all time and synced data, so I need a way of doing that and what better way is there to have your own cloud dev-env on your own server, gotcha is that it only works offline. 
+I also know that I need the same setup everywhere at all time and synced data, so I need a way of doing that and what better way is there to have your own cloud dev-env on your own server, gotcha is that it only works when you're online. 
 Hence both offline(local tools) and cloud(same tools except GUI ones) envs in one solution.
 
 Ah! A dot-file repo, hmm I know ansible!
