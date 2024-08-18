@@ -12,7 +12,7 @@ Thats the gist of it :)
 # Roadmap
 
 - [x] Initial planning and repo
-- [ ] finish install script 
+- [x] finish install script 
 - [ ] write required roles
 - [ ] add cloud functionality
     - [ ] Server side things
@@ -27,6 +27,7 @@ Thats the gist of it :)
             - [ ] Sync back git changes after SSH session exits when internet connectivity is there
         - [ ] Adjust add role that configures the client
 - [ ] Repo sugar like Renovate
+    - [ ] CI job that auto deploys the dev-env to the server on new commits
 
 ## Can I use this?
 
