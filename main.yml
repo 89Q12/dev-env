@@ -9,11 +9,17 @@
       loop_control:
         loop_var: roles_item
       with_items: "{{ required_roles }}"
+      when: required_roles is defined
       tags:
         - always
+
     - name: Run work roles
-      include_roles:
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "{{ role_name }}"
         name: "{{ role_name }}"
+        public: yes
       loop_control:
         loop_var: role_name
       with_items: "{{ work_dev_env.roles }}"
@@ -21,7 +27,10 @@
         - work
 
     - name: Run private roles
-      include_roles:
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "{{ role_name }}"
         name: "{{ role_name }}"
       loop_control:
         loop_var: role_name
@@ -30,10 +39,15 @@
         - private
 
     - name: Run cloud dev-env setup roles
-      include_roles:
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "{{ role_name }}"
         name: "{{ role_name }}"
+      vars:
+        roleVars: rolesVars["{{ role_name }}"]
       loop_control:
         loop_var: role_name
-      with_items: "{{ private_dev_env.roles }}"
+      with_items: "{{ cloud_dev_env.roles }}"
       tags:
         - cloud

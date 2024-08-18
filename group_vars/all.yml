@@ -1,5 +1,6 @@
+# Rolled out onto all machines
 required_roles:
-  - bash # Includes helper scripts and bash configuration
+#  - bash # Includes helper scripts and bash configuration
   - git # Only config
 #  - emacs
 #  - vim
@@ -9,7 +10,45 @@ required_roles:
 #  - minio-cli
 #  - docker
 
-vars:
-  git:
-    name: 89Q12
-    email: zofi@xamh.de
+# For private PCs aka my private clients
+private_dev_env:
+  roles:
+  - ssh
+#  - wireguard-client
+    #- vue
+    #- node
+    #- yarn
+    #- nvm
+    #- rust # Uses rustup to setup rust
+    #- discord
+
+# For the server that I will SSH into
+cloud_dev_env:
+  roles:
+   # - wireguard-server
+    #- vue
+    #- node
+    #- yarn
+    #- nvm
+    #- rust # Uses rustup to setup rust
+    #- discord
+
+# For the work laptop, not sure how much I will use this
+work_dev_env:
+  roles:
+    #- mattermost
+    #- withsecure
+    #- teams
+    #- evolution # Email
+    #- sops
+    #- vpn
+
+# Role vars
+git:
+  name: 89Q12
+  email: zofi@xamh.de
+ssh:
+# Example data, this should be added encrypted data
+#  keys:
+#  - key: "id_ed25519.pub"
+#    value: "esdfds"
