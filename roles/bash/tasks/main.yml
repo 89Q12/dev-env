@@ -20,26 +20,6 @@
   ansible.builtin.command: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/ohmybash/master/tools/install.sh)" "" --unattended'
   when: not ansible_check_mode and not install.stat.exists
 
-- name: Clone bash-autosuggestions
-  ansible.builtin.git:
-    clone: yes
-    depth: 1
-    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-    repo: https://github.com/zsh-users/zsh-autosuggestions
-    single_branch: yes
-    update: yes
-    version: master
-
-- name: Clone zsh-completions
-  ansible.builtin.git:
-    clone: yes
-    depth: 1
-    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-completions"
-    repo: https://github.com/zsh-users/zsh-completions
-    single_branch: yes
-    update: yes
-    version: master
-
 - name: Copy custom scripts
   copy:
     src: "{{ role_path }}/scripts"
