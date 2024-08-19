@@ -1,4 +1,3 @@
-
 function prettyPrint {
     if [ "$2" == "info" ] ; then
         COLOR="96m";

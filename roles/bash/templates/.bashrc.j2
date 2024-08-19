@@ -5,8 +5,12 @@ case $- in
 esac
 
 # Path to your oh-my-bash installation.
-export OSH='/home/zhagenguth/.oh-my-bash'
-DEFAULT_USER="zhagenguth"
+{% if ansible_os_family | lower == 'darwin' %}
+export OSH='/Users/{{ ansible_user_id }}/.oh-my-bash'
+{% else %}
+export OSH='/home/{{ ansible_user_id }}/.oh-my-bash'
+{% endif %}
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
 OSH_THEME="font"
@@ -116,7 +120,7 @@ plugins=(
 #  fi
 
 # Add custom aliases/functions
-for file in $HOME/.config/bash/*.sh; do
+for file in $HOME/.config/bash/scripts/*.sh; do
   source "$file"
 done
 source "$OSH"/oh-my-bash.sh

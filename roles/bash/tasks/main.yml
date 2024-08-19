@@ -19,8 +19,11 @@
 - name: Install OMYBASH
   ansible.builtin.shell: 'bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended'
   when: not ansible_check_mode and not install.stat.exists
+
 - name: Change default shell to bash
-  
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/zsh
 - name: Copy custom scripts
   copy:
     src: "{{ role_path }}/scripts"

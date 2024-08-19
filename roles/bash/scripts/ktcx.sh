@@ -2,7 +2,7 @@
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 source $root/dotfile-helper
 function select_kubeconfig() {
-    options=$(echo "(none)" "(none)";   find ~/.kube/configs/ -type f -printf '%p %P\n' | sort -r)
+    options=$(echo "(none)" "(none)"; find ~/.kube/configs/ -type f -printf '%p %P\n' | sort -r)
     [[ -v KUBECONFIG ]] && default_option="--default-item $KUBECONFIG"
 
     ctx=$(whiptail  $default_option --clear --notags --menu "choose your k8s fighter!!!" 20 100 12 $options 3>&1 1>&2 2>&3)
