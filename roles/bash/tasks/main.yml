@@ -17,9 +17,10 @@
   register: install
 
 - name: Install OMYBASH
-  ansible.builtin.command: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/ohmybash/master/tools/install.sh)" "" --unattended'
+  ansible.builtin.shell: 'bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)" --unattended'
   when: not ansible_check_mode and not install.stat.exists
-
+- name: Change default shell to bash
+  
 - name: Copy custom scripts
   copy:
     src: "{{ role_path }}/scripts"
@@ -32,4 +33,3 @@
     dest: "{{ ansible_user_dir }}/.bashrc"
     src: "./.bashrc.j2"
     force: true # DO NOT DO LOCAL CHANGES AAAHHHHH IM GONNA FUCK THEM UP! This is intentional
-
