@@ -16,18 +16,6 @@
       tags:
         - always
 
-    - name: Run work roles
-      ansible.builtin.include_role:
-        name: "{{ role_name }}"
-        apply:
-          tags:
-            - work
-      loop_control:
-        loop_var: role_name
-      with_items: "{{ work_dev_env.roles }}"
-      tags:
-        - work
-
     - name: Run private roles
       ansible.builtin.include_role:
         name: "{{ role_name }}"
