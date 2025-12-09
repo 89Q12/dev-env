@@ -4,4 +4,4 @@
 
 - name: Setup Better discord
   ansible.builtin.import_tasks: "setup_better_discord.yml"
-  when: {{ discord.betterDiscord.enabled }}
+  when: discord.betterDiscord.enabled
