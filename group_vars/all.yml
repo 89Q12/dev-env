@@ -1,6 +1,6 @@
 # Rolled out onto all machines
 required_roles:
-#  - bash # Includes helper scripts and bash configuration
+  - bash # Includes helper scripts and bash configuration
   - git # Only config
 #  - emacs
 #  - vim
