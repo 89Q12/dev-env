@@ -1,5 +1,0 @@
----
-- name: Install BASH
-  community.general.homebrew:
-    name: bash
-    state: present
