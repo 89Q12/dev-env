@@ -21,7 +21,7 @@
   community.general.git_config:
     name: user.name
     scope: global
-    value:  "{{ git.name }}"
+    value: "{{ git.name }}"
 
 - name: "Git | Set user.signingkey"
   community.general.git_config:
