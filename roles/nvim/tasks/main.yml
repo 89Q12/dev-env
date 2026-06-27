@@ -1,0 +1,21 @@
+---
+- name: Install neovim package
+  when: ansible_os_fammily == "Debian"
+  block:
+    - name: Add ppa
+      ansible.builtin.command: add-apt-repository ppa:neovim-ppa/stable -y
+    - name: Install neovim package
+      ansible.builtin.apt:
+        update_cache: true
+        name:
+          - neovim
+- name: Install neovim package
+  when: ansible_os_fammily == "Darwin"
+  community.general.homebrew:
+    name: neovim
+    state: present
+- name: Clone bootstrapping git repo
+  ansible.builtin.git:
+    clone: true
+    repo: git@github.com:89Q12/nvim-conf.git
+    dest: ~/.config/nvim
