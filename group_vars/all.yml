@@ -29,13 +29,12 @@ git:
   email: zofi@xamh.de
 ssh:
 # Example data, this should be added encrypted data
+# THE FIRST ENTRY MUST BE YOUR MAIN PRIVATE KEY
 #  keys:
 #  - key: "id_ed25519.pub"
 #    value: "esdfds"
   keys:
-    - key: main_id.pub
-      value: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKUWFYoi/RxvdeD9E7kDjJQ7nHaFD+zuKFiThro+9GzZ zofi@xamh.de"
-    - key: main_id.pub
+    - key: main_id
       value: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64313435386436333364396532656336303131356136313638626563373837666531306330363966
@@ -62,4 +61,6 @@ ssh:
           38343234613439663932316365366230616332646334626139366663383465363665333462616662
           61373766353737343763623361343733613261346662336138303834396631323934633865386137
           39393731376332313530
+    - key: main_id.pub
+      value: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKUWFYoi/RxvdeD9E7kDjJQ7nHaFD+zuKFiThro+9GzZ zofi@xamh.de"
 nvim:
