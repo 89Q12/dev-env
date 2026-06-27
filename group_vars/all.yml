@@ -64,3 +64,9 @@ ssh:
     - key: main_id.pub
       value: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKUWFYoi/RxvdeD9E7kDjJQ7nHaFD+zuKFiThro+9GzZ zofi@xamh.de"
 nvim:
+  config_repo: git@github.com:89Q12/nvim-conf.git
+devServer:
+  name: trinity
+  hostname: 45.83.107.127
+  username: dev
+  remoteCommand: echo hi
