@@ -1,0 +1,10 @@
+Host *
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/{{ ssh.keys[0].key }}
+Host {{ devServer.name }}
+  HostName {{ devServer.ip }}
+  Port {{ devServer.port | default(22)}}
+  User {{ devServer.username }}
+  RequestTTY force
+  RemoteCommand {{ devServer.connectCommand }}
+  
