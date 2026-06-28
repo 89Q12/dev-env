@@ -1,0 +1,5 @@
+ungrouped:
+  hosts:
+    reaver:
+      ansible_host: 45.83.107.127
+      ansible_user: dev
