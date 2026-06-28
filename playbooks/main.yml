@@ -1,14 +1,13 @@
 ---
 - name: DotFiles Config
   hosts: localhost
-  connection: local
   tasks:
     - name: Run requried roles
       ansible.builtin.include_role:
         name: "{{ roles_item }}"
         apply:
-            tags:
-              - always
+          tags:
+            - always
       loop_control:
         loop_var: roles_item
       with_items: "{{ required_roles }}"
@@ -20,8 +19,8 @@
       ansible.builtin.include_role:
         name: "{{ role_name }}"
         apply:
-            tags:
-              - private
+          tags:
+            - private
       loop_control:
         loop_var: role_name
       with_items: "{{ private_dev_env.roles }}"
@@ -32,10 +31,8 @@
       ansible.builtin.include_role:
         name: "{{ role_name }}"
         apply:
-            tags:
-              - cloud
-      vars:
-        roleVars: rolesVars["{{ role_name }}"]
+          tags:
+            - cloud
       loop_control:
         loop_var: role_name
       with_items: "{{ cloud_dev_env.roles }}"

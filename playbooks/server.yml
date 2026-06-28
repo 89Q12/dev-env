@@ -1,0 +1,15 @@
+---
+- name: Setup server side dev env
+  hosts: reaver
+  tasks:
+    - name: Ensure Homebrew dependencies are installed
+      ansible.builtin.apt:
+        name:
+          - build-essential
+          - curl
+          - git
+          - tar
+      become: true
+    - name: Install brew
+      check_mode: false
+      ansible.builtin.command: NOINTERACTIVE=1 /bin/bash -C "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
