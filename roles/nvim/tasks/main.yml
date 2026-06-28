@@ -1,16 +1,16 @@
 ---
+- name: Install dependecies
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - treesitter
+    - fdfind
+    - fzf
+    - riggrep
+    - luarocks
+    - lazygit
 - name: Install neovim package
-  when: ansible_os_fammily == "Debian"
-  block:
-    - name: Add ppa
-      ansible.builtin.command: add-apt-repository ppa:neovim-ppa/stable -y
-    - name: Install neovim package
-      ansible.builtin.apt:
-        update_cache: true
-        name:
-          - neovim
-- name: Install neovim package
-  when: ansible_os_fammily == "Darwin"
   community.general.homebrew:
     name: neovim
     state: present

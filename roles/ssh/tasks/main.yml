@@ -1,13 +1,4 @@
 ---
-- name: Dump all vars
-  ansible.builtin.debug:
-    msg: |-
-          {% for k in vars.keys()|
-                      reject('match', '^_.*$')|
-                      list|
-                      sort %}
-          {{ k }}: {{ lookup('vars', k) }}
-          {% endfor %}
 - name: "SSH | Copy SSH keys"
   ansible.builtin.copy:
     dest: "{{ ansible_user_dir }}/.ssh/{{ ssh_key_item.key }}"
@@ -17,3 +8,8 @@
     loop_var: ssh_key_item
   with_items: "{{ ssh.keys }}"
   when: ssh.keys is defined
+- name: Template ssh config
+  delegate_to: localhost
+  ansible.builtin.template:
+    src: config.j2
+    dest: ~/.ssh/config
